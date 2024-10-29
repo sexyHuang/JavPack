@@ -10,6 +10,7 @@
 | :----------- | :------------- | :----------------------------------------------------------------------------- |
 | 115.playlist | 播放列表       | [安装](https://github.com/sexyHuang/JavPack/raw/main/115/115.playlist.user.js) |
 | 115.delDir   | 播放页删除目录 | [安装](https://github.com/sexyHuang/JavPack/raw/main/115/115.delDir.user.js)   |
+| 115.preview  | 封面预览       | [安装](https://github.com/sexyHuang/JavPack/raw/main/115/115.preview.user.js)   |
 
 | JavDB                           | 描述         | 安装                                                                                 |
 | :------------------------------ | :----------- | :----------------------------------------------------------------------------------- |

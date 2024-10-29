@@ -37,5 +37,12 @@
     "SPYL",
     "vcode"
   ],
-  "cSpell.words": ["dmmplayer", "hechuangxinxi", "heydouga"]
+  "cSpell.words": [
+    "dmmplayer",
+    "hechuangxinxi",
+    "heydouga"
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }
