@@ -43,6 +43,10 @@ const MatchList = [
   }
 ]
 
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 
 let item_list, ifr;
 
@@ -55,8 +59,11 @@ ifr.load(function () {
   setCss();
   // 获取iframe中的body和div#js_data_list
   item_list = ifr.contents().find("body").find("div#js_data_list");
-  // 为div#js_data_list添加鼠标进入事件
-  item_list.mouseenter(itemEvent);
+  if (item_list.length === 0) return
+  item_list.on('mouseleave', () => {
+    item_list.find('.item_info').css("display", "none");
+  })
+  itemEvent();
 });
 
 function debounce(func, wait) {
@@ -72,6 +79,7 @@ function debounce(func, wait) {
 }
 
 function getVideoCode(title) {
+  if (!title) return null
   for (const { matchReg, replace } of MatchList) {
     const match = title.match(matchReg)
     if (match)
@@ -93,13 +101,18 @@ const getCacheValue = (key) => {
 
 
 // 定义一个函数getVideoInfo，用于获取视频信息
-function getVideoInfo(code, id) {
-  // 定义一个变量info，用于存储视频信息
-  var info = $("<div class='item_info' id='" + id + "'></div>");
-  // 将info添加到item_list中
-  item_list.append(info);
+async function getVideoInfo(code, beforeRequest) {
+  let info = item_list.find(`div#${code}`);
+  if (info.length === 0) {
+    // 定义一个变量info，用于存储视频信息
+    info = $("<div class='item_info' id='" + code + "'></div>");
+    // 将info添加到item_list中
+    item_list.append(info);
+  }
+
 
   const addContent = ({ title, img }) => {
+    if (info.find('.item_border').length) return
     info.append(`
           <div class='item_border'>
             <h4>${title}</h4>
@@ -108,30 +121,38 @@ function getVideoInfo(code, id) {
         `)
   }
   const savedValue = getCacheValue(code)
-  if (savedValue) {
+  if (savedValue?.title && savedValue?.img) {
     addContent(savedValue)
-    return
+    return info;
   }
-  // 使用GM_xmlhttpRequest发送HTTP请求
-  GM_xmlhttpRequest({
-    // 请求方法
-    method: "GET",
-    // 请求地址
-    url: "https://javdb.com/search?q=" + code + "&f=all",
-    // 请求加载完成后的回调函数
-    onload: xhr => {
-      // 将响应内容转换为jQuery对象
-      var xhr_data = $(xhr.responseText);
-      // 如果响应内容中没有div.alert，则执行以下操作
-      if (!xhr_data.find("div.alert").length) {
-
-        const title = xhr_data.find("div.video-title").html();
-        const img = xhr_data.find("div.cover img").attr("src");
-        GM_setValue(code, JSON.stringify({ title, img }))
-        addContent({ title, img })
+  await sleep(500)
+  await beforeRequest()
+  return new Promise((resolve, reject) => {
+    // 使用GM_xmlhttpRequest发送HTTP请求
+    GM_xmlhttpRequest({
+      // 请求方法
+      method: "GET",
+      // 请求地址
+      url: "https://javdb.com/search?q=" + code + "&f=all",
+      // 请求加载完成后的回调函数
+      onload: xhr => {
+        // 将响应内容转换为jQuery对象
+        var xhr_data = $(xhr.responseText);
+        // 如果响应内容中没有div.alert，则执行以下操作
+        if (!xhr_data.find("div.alert").length) {
+          const title = xhr_data.find("div.video-title").html();
+          const img = xhr_data.find("div.cover img").attr("src");
+          GM_setValue(code, JSON.stringify({ title, img }))
+          addContent({ title, img })
+        }
+        resolve(info)
+      },
+      onerror: (error) => {
+        console.log('error', error)
+        resolve(info)
       }
-    }
-  });
+    });
+  })
 }
 
 function hiddenVideoInfo(id) {
@@ -140,47 +161,39 @@ function hiddenVideoInfo(id) {
 
 // 为item列表添加事件
 function itemEvent() {
+  const map = new WeakMap()
   // 鼠标移入事件
-  function onItemMouseEnter(event) {
+  async function onItemMouseEnter(event) {
+    item_list.find('.item_info').css("display", "none");
     // 获取当前元素
     const $item = $(event.currentTarget);
+    map.set(event.currentTarget, true)
     // 获取视频标题
     const title = $item.attr("title");
-    const cid = $item.attr("cate_id");
+
     // 获取视频id
     const code = getVideoCode(title);
 
     // 如果id存在
-    if (cid) {
+    if (code) {
       // 获取视频信息 
-      const $info = item_list.find(`div#${cid}`);
-
-      // 如果视频信息不存在
-      if ($info.length === 0 && code) {
-        // 获取视频信息
-        getVideoInfo(code, cid);
-      }
-
+      const $info = await getVideoInfo(code, async () => {
+        if (!map.get(event.currentTarget)) throw new Error('cancel')
+      });
+      if (!map.get(event.currentTarget)) return
       // 显示视频信息
       showVideoInfo($info, event.clientX, event.clientY);
     }
   }
   // 鼠标移出事件
   function onItemMouseLeave(event) {
-    // 获取当前元素
-    const $item = $(event.currentTarget);
-    const cid = $item.attr("cate_id");
-
-    // 隐藏视频信息
-    hiddenVideoInfo(cid);
+    map.set(event.currentTarget, false)
   }
 
   // 为item列表中的li元素添加事件
-  item_list.find("li")
-    // 鼠标移入事件，使用防抖函数，延迟500毫秒
-    .on("mouseenter", debounce(onItemMouseEnter, 200))
-    // 鼠标移出事件
-    .on("mouseleave", onItemMouseLeave);
+  item_list.delegate("li", "mouseenter", onItemMouseEnter).delegate("li", "mouseleave", onItemMouseLeave);
+
+
 }
 
 function setCss() {
