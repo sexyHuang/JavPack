@@ -6,7 +6,7 @@
 // @description     快捷搜索
 // @match           https://javdb.com/*
 // @icon            https://javdb.com/favicon.ico
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Grant.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Grant.lib.js
 // @run-at          document-start
 // @grant           GM_openInTab
 // ==/UserScript==

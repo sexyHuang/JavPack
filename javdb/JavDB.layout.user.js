@@ -6,7 +6,7 @@
 // @description     布局调整
 // @match           https://javdb.com/*
 // @icon            https://javdb.com/favicon.ico
-// @resource        layout https://github.com/bolin-dev/JavPack/raw/main/static/JavDB.layout.user.css
+// @resource        layout https://github.com/sexyHuang/JavPack/raw/main/static/JavDB.layout.user.css
 // @run-at          document-start
 // @grant           GM_getResourceText
 // @grant           GM_addStyle

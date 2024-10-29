@@ -6,11 +6,11 @@
 // @description     115 网盘匹配
 // @match           https://javdb.com/*
 // @icon            https://javdb.com/favicon.ico
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Grant.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Magnet.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Req.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Req115.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Util.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Grant.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Magnet.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Req.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Req115.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Util.lib.js
 // @connect         115.com
 // @run-at          document-end
 // @grant           GM_xmlhttpRequest

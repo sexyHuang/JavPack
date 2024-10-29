@@ -7,16 +7,16 @@
 // @match           https://javdb.com/*
 // @match           https://captchaapi.115.com/*
 // @icon            https://javdb.com/favicon.ico
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Grant.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Magnet.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Offline.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Req.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Req115.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Util.lib.js
-// @resource        pend https://github.com/bolin-dev/JavPack/raw/main/assets/icon.png
-// @resource        warn https://github.com/bolin-dev/JavPack/raw/main/assets/warn.png
-// @resource        error https://github.com/bolin-dev/JavPack/raw/main/assets/error.png
-// @resource        success https://github.com/bolin-dev/JavPack/raw/main/assets/success.png
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Grant.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Magnet.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Offline.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Req.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Req115.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Util.lib.js
+// @resource        pend https://github.com/sexyHuang/JavPack/raw/main/assets/icon.png
+// @resource        warn https://github.com/sexyHuang/JavPack/raw/main/assets/warn.png
+// @resource        error https://github.com/sexyHuang/JavPack/raw/main/assets/error.png
+// @resource        success https://github.com/sexyHuang/JavPack/raw/main/assets/success.png
 // @connect         jdbstatic.com
 // @connect         aliyuncs.com
 // @connect         115.com
@@ -35,11 +35,13 @@
 // @grant           GM_info
 // ==/UserScript==
 
+const baseDir = 'AV'
+
 const config = [
-  {
-    name: "云下载",
-    color: "is-primary",
-  },
+  // {
+  //   name: "云下载",
+  //   color: "is-primary",
+  // },
   {
     name: "番号",
     dir: "番号/${prefix}",
@@ -49,25 +51,28 @@ const config = [
     name: "片商",
     dir: "片商/${maker}",
   },
-  {
-    name: "系列",
-    dir: "系列/${series}",
-    color: "is-success",
-  },
-  {
-    type: "genres",
-    name: "${genre}",
-    dir: "类别/${genre}",
-    match: ["屁股", "連褲襪", "巨乳", "亂倫"],
-    color: "is-warning",
-  },
+  // {
+  //   name: "系列",
+  //   dir: "系列/${series}",
+  //   color: "is-success",
+  // },
+  // {
+  //   type: "genres",
+  //   name: "${genre}",
+  //   dir: "类别/${genre}",
+  //   match: ["屁股", "連褲襪", "巨乳", "亂倫"],
+  //   color: "is-warning",
+  // },
   {
     type: "actors",
     name: "${actor}",
     dir: "演员/${actor}",
     color: "is-danger",
   },
-];
+].map(({dir, ...item})=> ({
+  dir: [baseDir, dir].filter(Boolean).join('/'),
+  ...item
+}))
 
 const TARGET_CLASS = "x-offline";
 const { host: HOST, pathname: PATHNAME } = location;

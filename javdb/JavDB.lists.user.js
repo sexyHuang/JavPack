@@ -6,9 +6,9 @@
 // @description     相关清单
 // @match           https://javdb.com/v/*
 // @icon            https://javdb.com/favicon.ico
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Req.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.ReqDB.lib.js
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Util.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Req.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.ReqDB.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Util.lib.js
 // @connect         hechuangxinxi.xyz
 // @run-at          document-end
 // @grant           GM_xmlhttpRequest

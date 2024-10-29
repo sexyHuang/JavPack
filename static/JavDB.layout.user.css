@@ -13,7 +13,7 @@
   --md-grid-cols: 2;
   --lg-grid-cols: 2;
   --xl-grid-cols: 3;
-  --xxl-grid-cols: 3;
+  --xxl-grid-cols: 5;
 }
 
 .movie-list.v {
@@ -36,7 +36,7 @@
 
 .container {
   width: 100%;
-  max-width: 1512px !important;
+  max-width: 85vw !important;
 }
 
 .actors,

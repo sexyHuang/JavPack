@@ -7,7 +7,7 @@
 // @match           https://115.com/*
 // @match           https://v.anxia.com/*
 // @icon            https://115.com/favicon.ico
-// @require         https://github.com/bolin-dev/JavPack/raw/main/libs/JavPack.Grant.lib.js
+// @require         https://github.com/sexyHuang/JavPack/raw/main/libs/JavPack.Grant.lib.js
 // @run-at          document-end
 // @grant           GM_deleteValue
 // @grant           GM_openInTab
