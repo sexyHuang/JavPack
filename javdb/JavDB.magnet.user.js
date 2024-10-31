@@ -18,6 +18,18 @@
 // ==/UserScript==
 
 Util.upLocal();
+const SPACIAL_CODE_PREFIX = {
+  MIUM: (code) => `300${code}`,
+}
+
+const normalizeCode = (code = '') => {
+  const prefix = code.split("-")[0].toUpperCase();
+  if (SPACIAL_CODE_PREFIX[prefix]) {
+    return SPACIAL_CODE_PREFIX[prefix](code);
+  }
+  return code;
+}
+
 
 (function () {
   const TARGET_ID = "x-magnet";
@@ -31,7 +43,7 @@ Util.upLocal();
   const CRACK_STR = '<span class="tag is-info is-small is-light">破解</span>';
   const HD_STR = '<span class="tag is-primary is-small is-light">高清</span>';
 
-  const code = document.querySelector(".first-block .value").textContent;
+  const code = normalizeCode(document.querySelector(".first-block .value").textContent.trim());
   const magnetsNode = document.querySelector("#magnets-content");
 
   magnetsNode.insertAdjacentHTML(
